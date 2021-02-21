@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test listener</title>
+</head>
+<body>
+
+    <div id="app">
+        <button v-on:click="countD">-</button>
+        <my-componet v-bind:count="count"></my-componet>
+      <button v-on:click="conunt">+</button>
+    </div>
+
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        Vue.component("my-componet",{
+            props:['count'],
+           template:'<h1>{{count}}</h1>'
+        })
+        new Vue({
+            el:"#app",
+            data() {
+                return {
+                    count:2
+                }
+            },
+            methods: {
+                conunt:function(){
+                    // alert(this.count+1);
+                    return this.count+=1;
+                },
+                countD:function(){
+                    return this.count-=1;
+                }
+            },
+        })
+
+    </script>
+
+
+</body>
+</html>

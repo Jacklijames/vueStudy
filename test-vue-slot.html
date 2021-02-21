@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test slot</title>
+</head>
+<body>
+    
+    <template id="myt">
+        <!-- 匿名插槽 -->
+        <div>
+        <div>
+            <slot>
+                {{msg}}
+            </slot>
+        </div>
+        <br>
+        <!-- 具名插槽 -->
+        <div>
+            <slot name="header">
+                <button>确定</button>
+            </slot>
+        </div>
+        <br>
+        <div>
+            <slot name="footer">
+                <button>取消</button>
+            </slot>
+        </div>
+    </div>
+    </template>
+
+   
+
+    <div id="app">
+        <my-componet msg="12313123"></my-componet>
+        <my-componet msg="12313123">
+            请输入密码：<input type="text">
+        </my-componet>
+        <my-componet v-bind:msg="message"></my-componet>
+
+        <my-componet v-bind:title="title">
+            {{title+'??'}}
+            <div>
+                <button>确定</button>
+                <button>取消</button>
+            </div>
+
+        </my-componet>
+    </div>
+
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        Vue.component("my-componet",{
+            props:['msg','title'],
+          template:'#myt'
+        })
+        new Vue({
+            el:"#app",
+            data() {
+                return {
+                    message:"hahaha",
+                    title:"具名插槽"
+                }
+            },
+            methods: {
+               
+            }
+        })
+
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test coustomEvent</title>
+</head>
+<body>
+    
+    <template id="myt">
+        <div>
+            <div>
+                <slot>
+                    {{title}}
+                </slot>
+           </div>
+           <div>
+               <slot name="footer">
+                输入姓名：<input type="text" v-model="username">
+                password：<input type="text" v-model="password"><br>
+                   <button @click='customMethod'>确定</button>
+               </slot>
+           </div>
+        </div>
+       
+    </template>
+
+   
+    <!-- 父组件进行事件监听 -->
+    <div id="app">
+        <my-componet 
+        @myevent='doSometing'
+        v-bind:msg='msg1'
+        >
+        <!-- v-on:myevent="doSometing" -->
+           
+        </my-componet>
+    </div>
+
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        Vue.component("my-componet",{
+            props:['msg','title'],
+          template:'#myt',
+          data() {
+              return {
+                username:'',
+                  password:''
+              }
+          },
+          methods: {
+            //子组件  
+            //抛出一个自定义事件，参数是输入的用户名和密码
+              customMethod:function(){
+                  this.$emit('myevent', this.username,this.password)
+              }
+          },
+        })
+        new Vue({
+            el:"#app",
+            data() {
+                return {
+                    msg1:"添加提示信息",
+                    msg2:"删除提示信息"
+                }
+            },
+            methods: {
+                //显示对话框组件中的输入值
+               doSometing:function(val1,val2){
+                   alert(11);
+                   alert(val1+";"+val2)
+               }
+            }
+        })
+
+    </script>
+
+
+</body>
+</html>

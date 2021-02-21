@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 必须在vue实例中才可以 -->
+    <h1>{{ title }}</h1> 
+    <!-- 视图 -->
+    <div id="app">
+        <!-- 单个根元素 -->
+       <h1>{{ title }}</h1> 
+        <!-- 组件使用和props -->
+        <my-componet title="jhajha"></my-componet>
+        <my-componet title="jhgahsa"></my-componet>
+        <!--for循环-->
+        <!-- bind绑定bind后面的title是和props中的一一对应 -->
+        <my-componet v-for="(post,index) in posts" v-bind:index="index" v-bind:title="post.title"></my-componet>
+        <my-componet v-bind:age="age"></my-componet>
+        <!-- 当在组件中绑定了name属性后以为其和组件中自定义的一样，所以组件中的name属性失效，只会在标记了name属性的组件上显示 -->
+        <!-- <my-componet v-bind:name="name"></my-componet> -->
+    </div>
+
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+
+        Vue.component("my-componet",{
+            //props中定义的参数是和template中的变量一一对应才会正常显示
+            //向子组件传递数据
+            props:['title','age','name','index'],
+            template:'<h3>{{index}}..{{name}},,,{{title}},,{{age}}</h3>'
+        })
+
+        new Vue({
+            el:"#app",
+            data() {
+                return {
+                
+                }
+            },
+        })
+
+    </script>
+
+
+</body>
+</html>

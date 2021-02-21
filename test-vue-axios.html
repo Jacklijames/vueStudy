@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 视图 -->
+    <div id="app">
+       {{resdata}}
+       <my-componet v-bind:name="resdata.name"></my-componet>
+    </div>
+
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 引入axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        // 注册组件
+        Vue.component("my-componet",{
+            props:['title','age','name','index'],
+            //模板
+            template:'<h3>{{index}}..{{name}},,,{{title}},,{{age}}</h3>'
+        })
+        // 模型
+        new Vue({
+            el:"#app",
+            data() {
+                return {
+                  resdata:"resdata",
+                }
+            },
+            mounted() {
+                // axios基本语法
+                axios.get("./data.json").then((response)=>{
+                    console.log(response.data);
+                    this.resdata = response.data;
+                })
+            },
+        })
+
+    </script>
+
+
+</body>
+</html>
