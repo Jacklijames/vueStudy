@@ -19,6 +19,7 @@
                <slot name="footer">
                 输入姓名：<input type="text" v-model="username">
                 password：<input type="text" v-model="password"><br>
+                <!-- 用来触发子组件抛出事件 -->
                    <button @click='customMethod'>确定</button>
                </slot>
            </div>
@@ -53,8 +54,8 @@
           },
           methods: {
             //子组件  
-            //抛出一个自定义事件，参数是输入的用户名和密码
-              customMethod:function(){
+            customMethod:function(){
+                  //抛出一个自定义事件，参数是输入的用户名和密码
                   this.$emit('myevent', this.username,this.password)
               }
           },
