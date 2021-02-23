@@ -33,7 +33,7 @@
                   resdata:"resdata",
                 }
             },
-            mounted() {
+            mounted() {//生命周期函数
                 // axios基本语法
                 axios.get("./data.json").then((response)=>{
                     console.log(response.data);
