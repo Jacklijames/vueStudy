@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件修饰符</title>
+    
+</head>
+<style>
+    .a{
+        border: 5px red solid;
+    }
+    .b{
+        border: 5px darkblue solid;
+    }
+</style>
+<body>
+    <div id="app">
+        <!-- 
+            事件修饰符：作用：用来和事件连用，用来决定事件触发条件和决定事件触发机制
+            .stop  停止事件冒泡
+            .prevent 阻止默认行为
+            .self 只监听自身事件
+            .once 一次事件
+        -->
+        <h1>事件修饰符</h1>
+        <div style="width: 300px;height: 300px;background-color: forestgreen;border: indigo solid;" @click = "parent">
+            <div style="width: 100px;height: 100px;background-color: hotpink;" @click = "child"></div>
+        </div>
+
+        <h2>.stop</h2>
+         <!-- .stop事件修饰符 作用：用来阻止事件的冒泡 -->
+         <div style="width: 300px;height: 300px;background-color: forestgreen;border: indigo solid;" @click = "parent">
+            <!-- 对孩子时中单击事件进行修饰：不进行事件冒泡处理 .stop -->
+            <div style="width: 100px;height: 100px;background-color: hotpink;" @click.stop = "child"></div>
+        </div>
+
+        <h2>prevent事件修饰符</h2>
+        <!-- 默认行为：根据href链接自动跳转 .prevent 阻止事件默认行为 -->
+        <a href="http://www.baidu.com" @click.prevent="search">百度一下</a>
+
+        <h2>.self</h2>
+         <!-- .self 只监听自身标签触发的对应事件 -->
+         <div style="width: 300px;height: 300px;background-color: forestgreen;border: indigo solid;" @click.self = "parent">
+            <div style="width: 100px;height: 100px;background-color: hotpink;border: indigo solid;" @click = "child"></div>
+            <div style="width: 100px;height: 100px;background-color: hotpink;border: indigo solid;" @click = "child"></div>
+        </div>
+        <h2>once事件修饰符</h2>
+        <!-- 默认行为：根据href链接自动跳转 .prevent 阻止事件默认行为 -->
+       <input type="button" @click.once="oncee" value="once"/>
+    </div>
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+
+        Vue.component("my-componet",{
+          
+        })
+
+        new Vue({
+            el:"#app",
+            data() {
+                return {
+                
+                }
+            },
+            methods: {
+                parent(){
+                    alert("parent div")
+                },
+                child(){
+                    alert("child div")
+                },
+                search(){
+                    alert("prevent ")
+                },
+                oncee(){
+                    alert("once")
+                }
+            },
+        })
+
+    </script>
+
+
+</body>
+</html>

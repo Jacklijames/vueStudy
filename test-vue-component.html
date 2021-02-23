@@ -16,9 +16,9 @@
         <!-- 组件使用和props -->
         <my-componet title="jhajha"></my-componet>
         <my-componet title="jhgahsa"></my-componet>
-        <!--for循环-->
+        <!--for循环  价格  :key="唯一的值" 方便vue去操作-->
         <!-- bind绑定bind后面的title是和props中的一一对应 -->
-        <my-componet v-for="(post,index) in posts" v-bind:index="index" v-bind:title="post.title"></my-componet>
+        <my-componet v-for="(post,index) in posts" :key="post.id" v-bind:index="index" v-bind:title="post.title" :name="post.name"></my-componet>
         <my-componet v-bind:age="age"></my-componet>
         <!-- 当在组件中绑定了name属性后以为其和组件中自定义的一样，所以组件中的name属性失效，只会在标记了name属性的组件上显示 -->
         <!-- <my-componet v-bind:name="name"></my-componet> -->
@@ -40,7 +40,11 @@
             el:"#app",
             data() {
                 return {
-                
+                    posts:[
+                        {id:"1",name:"小李",title:"哈哈"},
+                        {id:"2",name:"小wang",title:"xixi"},
+                        {id:"3",name:"小zhao",title:"heihei"}
+                    ]
                 }
             },
         })
