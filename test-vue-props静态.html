@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind</title>
+    
+</head>
+<body>
+    <!-- id选择器 -->
+    <template id="te">
+       <div>
+           {{pro}}
+       </div>
+    </template>
+
+    <div id="app">
+        <!-- 传递静态数据 -->
+        <my-componet pro="父组件向子组件传递数据"></my-componet>
+    </div>
+    <!-- 
+
+    -->
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+       
+        //如何实现父组件向子组件内部传输数据，并且将数据在子组件中进行展示？
+        //在vue中父组件向子组件传递数据可以通过 props 属性
+
+        Vue.component("my-componet",{
+            //props需要是一个array或者object
+          props:['pro'],
+          template:"#te",
+          data() {//注意：在props中定义数据后，不能再data中重复定义，如果重复定义优先使用props中数据为主
+              return {
+                    // The data property "pro" is already declared as a prop. Use prop default value instead.
+                     pro:"hahhahaha",
+
+              }
+          },
+        })
+
+        new Vue({
+            el:"#app",
+            data() {
+                return {
+                    
+                }
+            },
+        })
+
+    </script>
+
+
+</body>
+</html>

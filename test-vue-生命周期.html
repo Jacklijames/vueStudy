@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>v-bind</title>
+    <title>vue生命周期</title>
     
 </head>
 
 <body>
     <div id="app">
-        
+        {{msg}}
     </div>
     <!-- 绑定页面属性 ：
         用来将html标签中相关属性绑定到vue实例中，日后通过对vue实例中数据改变，影响到对应标签中属性值的变化
@@ -28,31 +28,34 @@
             el:"#app",
             data() {
                 return {
-                    
+                    msg:"vue生命周期"
                 }
             },
             beforeCreate() {
+                // 参考官网上的生命周期图可知，beforeCreate函数  组件开始初始化，仅仅注册组件自己事件和生命周期函数
+                console.log("beforeCreate:"+this.msg);
+            },
+            created() {//组件已经注入data methods computed 相关方法
+                // `this` 指向 vm 实例
+                // axios最好在这里面进行调用
+                console.log("created:"+this.msg);
+            },
+            beforeMount() {//将templete中执行html编译vue模板  此时还没有完成模板中内容渲染
                 
             },
-            created() {
+            mounted() {//将template中html编译模板进行数据渲染 并且将渲染完成的数据在内存中形成虚拟dom替换template指向dom
                 
             },
-            beforeMount() {
+            beforeUpdate() {//当自建中data数据发生变化时，会触发beforeUpdate，此时页面中数据还是原始数据
                 
             },
-            mounted() {
+            updated() {//此时页面中数据和data数据一致
                 
             },
-            beforeUpdate() {
+            beforeDestroy() {//销毁vue实例之前触发方法
                 
             },
-            updated() {
-                
-            },
-            beforeDestroy() {
-                
-            },
-            destroyed() {
+            destroyed() {//vue实例已经彻底销毁 监听机制 全部消失
                 
             },
         })

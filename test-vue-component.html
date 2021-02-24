@@ -8,11 +8,14 @@
 </head>
 <body>
     <!-- 必须在vue实例中才可以 -->
-    <h1>{{ title }}</h1> 
+    <!-- <h1>{{ title }}</h1>  -->
     <!-- 视图 -->
     <div id="app">
         <!-- 单个根元素 -->
        <h1>{{ title }}</h1> 
+       <login></login>
+       <loginn></loginn>
+       <!-- <loginnnn></loginnnn> -->
         <!-- 组件使用和props -->
         <my-componet title="jhajha"></my-componet>
         <my-componet title="jhgahsa"></my-componet>
@@ -28,18 +31,43 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
     <script>
-
+            //全局组件
         Vue.component("my-componet",{
             //props中定义的参数是和template中的变量一一对应才会正常显示
             //向子组件传递数据
             props:['title','age','name','index'],
-            template:'<h3>{{index}}..{{name}},,,{{title}},,{{age}}</h3>'
+            template:"<div><h3>{{index}}..{{name}},,,{{title}},,{{age}},,{{count}}--{{countSqrt}}</h3><button @click='changeCount'>+</button></div>",
+            data() {//组件中的data需要是一个function,并返回一个预实例
+                    //用来给当前组件定义一系列数据，注意：组件中定义数据只能在当前组件可用
+                return {
+                    count:0
+                }
+            },
+            methods: {//用来给当前组件定义一些列事件
+                changeCount:function(){
+                    this.count++;
+                }
+            },
+            computed:{//给当前组件定义一些列计算属性，用来对页面中结果进行二次计算处理时候
+                        //会保留一个缓存
+                countSqrt:function(){
+                    console.log("computed");
+                    return  this.count*this.count
+                }
+            }
         })
-
+        const loginn = {
+            template:'<h3>局部组件loginn</h3>'
+        }
+        const loginnn = {
+            template:'<h3>局部组件loginnn</h3>'
+        }
         new Vue({
             el:"#app",
             data() {
                 return {
+                    age:"20",
+                    title:"heihei",
                     posts:[
                         {id:"1",name:"小李",title:"哈哈"},
                         {id:"2",name:"小wang",title:"xixi"},
@@ -47,6 +75,15 @@
                     ]
                 }
             },
+            // 局部组件
+            components:{
+                login:{
+                    template:'<h3>局部组件login</h3>'
+                },
+                loginn:loginn,
+                // es6语法
+                // loginnn
+            }
         })
 
     </script>
