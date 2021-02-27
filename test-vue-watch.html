@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind</title>
+    
+</head>
+<style>
+    .a{
+        border: 5px red solid;
+    }
+    .b{
+        border: 5px darkblue solid;
+    }
+</style>
+<body>
+    <div id="app">
+      demo:  <input v-model="demo"><br>
+      student.name:  <input v-model="student.name"><br>
+      student.age:  <input v-model="student.age"><br>
+      c:  <input v-model="c"><br>
+      arr:  <input v-model="arr"><br>
+      a:  <input v-model="a"><br>
+        demo:{{demo}}<br>
+        b:{{b}}<br>
+        a:{{a}}
+    </div>
+  
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+
+        Vue.component("my-componet",{
+          
+        })
+
+        let vue = new Vue({
+            el:"#app",
+            data() {
+                return {
+                  a:1,
+                  b:3,
+                  c:'',
+                  demo:'',
+                //   d:'',
+                  student:{
+                      name:'',
+                      age:''
+                  },
+                  arr:[
+                      '1','q'
+                  ]
+                }
+            },
+            methods: {
+                test:function(){
+                        alert("监听调用")
+                }
+            },
+            computed:{
+                nStudent(){
+                    return this.student.name
+                }
+            },
+            watch:{
+                a:function(val, oldVal){
+                    console.log('new: %s, old: %s', val, oldVal);
+                },
+                b:function(val, oldVal){//val为新监听到的变化的值，oldVal是前一个值
+                    console.log('new: %s, old: %s', val, oldVal);
+                },
+                demo(val){//这个方法名必须和vue实例数据中定义的属性名称一致才可以监听,这个val监听到的就是demo的变化后的值
+                    this.a = this.demo
+                    alert("val----"+val)
+                    this.b = val;
+                },
+                //上面的三个例子是用watch直接监听demo，a,b的
+                // 但是watch直接监听对象是不行的，来看
+                student(val){//这样是不行的
+                    alert("stu==="+val)
+                    this.demo = val.name
+                },
+                //如果watch监测的是一个对象的话，直接使用watch是不行的，此时我们可以借助于computed计算属性来完成。
+                nStudent(val){
+                    alert("nstu==="+val)
+                    this.demo = val
+                },
+                // 该回调将会在侦听开始之后被立即调用
+                // d: {
+                //     handler: 'test',
+                //     immediate: true
+                // },
+                 // 该回调会在任何被侦听的对象的 property 改变时被调用，不论其被嵌套多深
+                arr: {
+                handler: function (val, oldVal) { 
+                    console.log('arrnew: %s, arrold: %s', val, oldVal);
+                 },
+                deep: true//对象内部的属性监听，也叫深度监听
+                },
+                'student.name'(val, oldVal){//键路径必须加上引号
+                   console.log('stnew: %s, stold: %s', val, oldVal)
+                }
+
+            }
+        })
+        vue.$watch("demo",function(val,oldval){
+                    console.log("watch===="+val)
+                })//主动调用$watch方法来进行数据监测
+    </script>
+
+
+</body>
+</html>
