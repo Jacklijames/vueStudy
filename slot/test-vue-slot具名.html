@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test slot</title>
+</head>
+<body>
+    
+    <template id="myt">
+        <!-- 具名插槽 -->
+        <div>
+            <div>
+                <slot name="header">
+                    <button>确定</button>
+                </slot>
+            </div>
+            <br>
+            <slot></slot>
+            <br>
+
+            <div>
+                <slot name="footer">
+                    <button>取消</button>
+                </slot>
+            </div>
+        </div>
+    </template>
+
+   
+
+    <div id="app">
+        <my-componet>
+            <h3>劝学</h3>
+            <p>少壮不努力，老大徒伤悲</p>
+            <p>光阴似箭，岁月如梭</p>
+            <template slot="header">
+                <ul >
+                    <li>主页</li>
+                    <li>关于时间</li>
+                    <li>关于人生</li>
+                    <li>关于未来</li>
+                </ul>
+            </template>
+            <p>你好啊</p>
+            <p slot="footer">
+                <p>结尾</p>
+            </p>
+            
+        </my-componet>
+    </div>
+
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        Vue.component("my-componet",{
+            props:['msg','title'],
+            template:'#myt'
+        })
+        new Vue({
+            el:"#app",
+            data() {
+                return {
+                 
+                }
+            },
+            methods: {
+               
+            }
+        })
+
+    </script>
+
+
+</body>
+</html>

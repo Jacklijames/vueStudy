@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test slot作用域</title>
+</head>
+<body>
+    
+    <template id="myt">
+       <!-- 作用域插槽 -->
+      <ul>
+           <li v-for="todo in todos" :key="todo.id" style="display: block;" >
+               <slot :data="todo">{{todo.text}}</slot>
+           </li>
+        </ul>
+    </template>
+
+    <template id="slot-scope">
+
+    </template>
+
+    <!-- 
+        从子组件传过来的名为data值为todo的数据将会被slot-scope接收，
+        需要注意的是，slot-scope接收的是一个对象，这里命名为slotProps，也就是说你传过来的data将会作为slotProps的一个属性，
+        所以需要slotProps.data才能调用到data。前面说了，data的值为todo，todo是什么呢？todo是todos遍历出来的，所以是一个对象。 
+        -->
+   
+
+    <div id="app">
+        <h1>{{title}}</h1>
+        <!-- 组件绑定数据 -->
+        <!-- 父组件 -->
+        <my-componet :data="todos">
+            <!-- 子组件 -->
+            <template slot-scope="slotProps">
+                <span v-if="slotProps.data.isTrue">√</span>
+                    {{slotProps.data.text}}     
+            </template>
+        </my-componet>
+    </div>
+
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        Vue.component("my-componet",{
+            props:{
+                  data:[Array,Object]
+            },
+          template:'#myt'
+        })
+        new Vue({
+            el:"#app",
+            data() {
+                return {
+                    message:"hahaha",
+                    title:"作用域插槽",
+                    todos:[
+                        {text:"A",id:1,isTrue:true},
+                        {text:"B",id:2,isTrue:true},
+                        {text:"C",id:3,isTrue:false},
+                        {text:"D",id:4,isTrue:true},
+                    ]
+                }
+            },
+            methods: {
+               
+            }
+        })
+
+    </script>
+
+
+</body>
+</html>

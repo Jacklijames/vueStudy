@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test slot作用域</title>
+</head>
+<body>
+    <template id="slot-scope">
+        <span>
+            <!-- 子组件 -->
+            <child>
+                <!-- 接收子组件数据 -->
+                <template v-slot:default="slotProps">
+                        <p>我是子组件传过来的数据 ：{{slotProps.user.name}}</p>
+                </template>
+            </child>
+            <!-- 父组件中的数据 -->
+            <p>我是父组件中的数据：{{user.age}}</p>
+        </span>
+    </template>
+    
+
+    <div id="app">
+        <h1>{{title}}</h1>
+        <!-- <current_user :user="user"></current_user> -->
+        <!-- <current_user>
+            这个写法会有问题
+            Error in render: "TypeError: Cannot read property 'lastName'，
+            因为只有 <current-user> 组件可以访问到 user 而我们提供的内容是在父级渲染的。
+
+            
+            {{user.firstname}} 
+        </current_user> -->
+        <current_user :user="user">
+            <!-- 为了让 user 在父级的插槽内容中可用，我们可以将 user 作为 <slot> 元素的一个 attribute 绑定上去： -->
+        <!-- <current_user  :user="user"> -->
+            <!-- <template v-slot:default="slotProps">
+                {{slotProps.user.lastName}}
+            </template> -->
+        <!-- </current_user> -->
+           
+        </current_user>
+        <!-- {{user.firstname}} -->
+    </div>
+
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+       const childd = `<span>
+                         <!-- :user 是自定义属性？？？？ -->
+                        <slot v-bind:user="user">
+                           
+                        </slot>
+                    </span>`;//es6写法
+    //同时注册为全局组件是可以的
+    //    Vue.component("current_user",{
+
+    //     template:"#slot-scope",
+    //     props:['user']
+     
+    //    })
+     //    Vue.component("child",{
+    //         //slot绑定数据来自于data中，不同于props
+    //         template:childd,
+    //         data() {
+    //             return {
+    //                 user:{
+    //                     name:"李晨",
+    //                 }
+    //             }
+    //         },
+    //         })
+        //子组件
+        const child = {
+        template:childd,
+        data() {
+            return {
+                user:{
+                    name:"李晨"
+                }
+            }
+        }
+        }
+        //父组件
+       const current_user = {
+        template:"#slot-scope",
+        props:['user'],
+        components:{
+            //如果该组件想使用其他组件，那么被使用的组件需要放在上面，否则初始化会出问题
+            'child':child
+        }
+       }
+
+   
+        new Vue({
+            el:"#app",
+            components:{
+                //局部组件注册,这个地方的顺序没所谓
+                'current_user':current_user,
+                'child':child,
+                },
+
+            data() {
+                return {
+                  title:"作用域solt",
+                  user:{
+                      lastName:"帅",
+                      firstname:"丑",
+                      age:"20"
+                  },
+               
+                }
+            },
+        })
+
+    </script>
+
+
+</body>
+</html>
