@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nextTick</title>
+    
+</head>
+<style>
+    .a{
+        border: 5px red solid;
+    }
+    .b{
+        border: 5px darkblue solid;
+    }
+</style>
+<body>
+    <div id="app">
+        <p><h1>  {{title}}</h1></p>
+     <input ref="reference"  v-model="msg"><br>
+     <button @click="change">change</button>
+    </div>
+    
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+
+        Vue.component("my-componet",{
+          
+        })
+
+        let vm = new Vue({
+            el:"#app",
+            data() {
+                return {
+                    title:"nextTick",
+                    msg:"1"
+                }
+            },
+            methods: {
+                change(){
+                    //改变数据
+                    this.msg++
+                    // DOM没更新
+                    alert("等待msg="+this.$refs.reference.value)
+                   this.$nextTick(()=>{
+                       //DOM更新
+                       alert("强迫DOM更行更新msg=="+this.$refs.reference.value)
+                   })
+                },
+                tip(){
+                    alert("DOM更新");
+                }
+            },
+            watch:{
+                msg(){
+                    alert("watch")
+                }
+            }
+        })
+        vm.$nextTick(function(){
+                       this.tip()
+                   });
+                   vm.$nextTick(()=>{
+                       alert("heihei");
+                   });
+                //    this.nextTick(()=>{
+                //        alert("12312");
+                //    })
+        vm.$nextTick(()=>{
+            // this.message = this.$refs.reference.offsetWidth;//报错 TypeError: this.$refs.myWidth is undefined
+            console.log("reference=="+vm.$refs.reference.offsetWidth)
+        })
+       
+
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nextTick</title>
+    
+</head>
+<body>
+    <template id="tick">
+        <div>
+            <div ref="msgDiv">{{msg}}</div>
+            <div v-if="msg1">Message got outside $nextTick: {{msg1}}</div>
+            <div v-if="msg2">Message got inside $nextTick: {{msg2}}</div>
+            <div v-if="msg3">Message got outside $nextTick: {{msg3}}</div>
+            <button @click="changeMsg">
+                Change the Value
+            </button>
+        </div>
+    </template>
+
+    
+    <div id="app">
+     <my-componet></my-componet>
+    </div>
+    
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+
+        Vue.component("my-componet",{
+          template:"#tick",
+          data() {
+              return {
+                msg: '000000',
+                msg1: '',
+                msg2: '',
+                msg3: ''
+              }
+          },
+          methods: {
+            changeMsg() {
+                //修改数据
+                this.msg = "111111"
+                // DOM还未更新
+                //第一次dom操作不会执行到最新改变的msg
+                this.msg1 = this.$refs.msgDiv.innerHTML 
+                this.$nextTick(() => {
+                    // DOM 现在更新了
+                    this.msg2 = this.$refs.msgDiv.innerHTML 
+                })
+                //第一次dom操作不会执行到最新改变的msg
+                // DOM还未更新
+                this.msg3 = this.$refs.msgDiv.innerHTML
+            }
+        }
+
+        })
+
+        let vm = new Vue({
+            el:"#app",
+            data() {
+                return {
+                    title:"nextTick",
+                    msg:""
+                }
+            },
+            methods: {
+                change(){
+                    this.msg++
+                   
+                },
+                tip(){
+                    alert("DOM更新");
+                }
+            },
+            watch:{
+                msg(){
+                    alert("watch")
+                }
+            }
+        })
+      
+
+    </script>
+
+
+</body>
+</html>
