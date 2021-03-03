@@ -7,7 +7,10 @@
     <title>test listener</title>
 </head>
 <body>
-    <!-- v-model: 作用：用来绑定form表单标签中的value属性交给vue实例进行管理 -->
+    <!-- v-model: 作用：用来绑定form表单标签中的value属性交给vue实例进行管理
+                    作用2：自定义组件中使用v-model,
+                    默认会利用名为 value 的 prop 和名为 input 的事件，但是像单选框、复选框等类型的输入控件可能会将 value attribute 用于不同的目的
+    -->
     <div id="app">
        请输入：<input type="text" v-model="name" >  {{name}}
     </div>

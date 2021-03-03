@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+</head>
+<body>
+    <!-- v-model: 
+        作用2：自定义组件中使用v-model,
+        默认会利用名为 value 的 prop 和名为 input 的事件，
+        但是像单选框、复选框等类型的输入控件可能会将 value attribute 用于不同的目的
+    -->
+    <div id="app">
+       <p><h1>{{titile}}</h1></p>
+       <!-- <custom-model  v-model="pro" ></custom-model> -->
+       <!-- //相当于 -->
+     <custom-model  :value="pro" @input="pro = arguments[0]" ></custom-model>
+       <!-- <input v-model="pro"><br> -->
+       <!-- 相当于 -->
+       <input :value="pro" @input="pro = $event.target.value"><br>
+       实例上监听：<input v-model="value">
+       <list-cus v-model="pro"></list-cus>
+    </div>
+
+    <template id="tem" >
+            <div><button @click="ccl">点我组件上监听</button></div>
+    </template>
+    <template id="lis" >
+        <div>11</div>
+</template>
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+       Vue.component('customModel',{
+                    template:"#tem",
+                    data() {
+                        return {
+                            i:"1",
+                        }
+                    },
+                    props:{value:{}},
+                    watch:{
+                        value(){
+                            alert("111")
+                        }
+                    },
+                    methods: {
+                        ccl(){
+                            value = this.i++
+                            this.$emit('input',value)
+                        }
+                    },
+                })
+                // Vue.component('listCus',{
+                //     template:"#lis",
+                //     // 在组件中是在props中定义监听对象
+                //     // 要监听默认的value也需要在props中事先定义一个value
+                //     props:{
+                //         value:{}
+                //     },
+                //     // 在vue实例中是在data中定义监听对象
+                //     // data() {
+                //     //     return {
+                //     //         value:{}
+                //     //     }
+                //     // },
+                //     watch:{
+                //         value(){
+                //             alert("value");
+                //         }
+                //     }
+                // })
+        new Vue({
+            el:"#app",//指定vue实例作用范围
+            data:{    
+                titile:"自定义组件中使用v-model",
+                name:"李晨",
+                pro:"",
+                value:{}
+            },
+            components:{
+            //     customModel:{
+            //         template:"#tem",
+            //         data() {
+            //             return {
+            //                 i:"1",
+            //             }
+            //         },
+            //         methods: {
+            //             ccl(){
+            //                 this.value = this.i++
+            //                 this.$emit('input',this.value)
+            //             }
+            //         },
+            //     },
+                listCus:{
+                    template:"#lis",
+                    props:{
+                        value:{}
+                    },
+                    watch:{
+                        value(){
+                            alert("value");
+                        }
+                    }
+                }
+            },
+            watch:{
+                value(val){
+                    console.log("value==="+val)
+                }
+            },
+            methods: {
+                ccl(){
+                   
+                }
+            },
+        })
+
+    </script>
+
+
+</body>
+</html>
