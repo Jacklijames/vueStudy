@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        在浏览器控制台中输出的信息,可以看到,
+        一个非 prop 的 attribute 是指传向一个组件，但是该组件并没有相应 prop 定义的 attribute。
+
+        因为显式定义的 prop 适用于向一个子组件传入信息，然而组件库的作者并不总能预见组件会被用于怎样的场景。
+        这也是为什么组件可以接受任意的 attribute，而这些 attribute 会被添加到这个组件的根元素上。
+
+        当组件中未指定prop会被添加到根元素上
+
+        $vm.$attrs
+        {id: "1", name: "lichen"}
+        ### vm.$attrs
+        包含了父作用域中不作为 prop 被识别 (且获取) 的 attribute 绑定 (class 和 style 除外)。
+        当一个组件没有声明任何 prop 时，
+        这里会包含所有父作用域的绑定 (class 和 style 除外)，并且可以通过 v-bind="$attrs" 传入内部组件——在创建高级别的组件时非常有用。
+
+
+        $vm.$parent.componentData
+        {__ob__: Observer}id: "1"name: "lichen"__ob__: Observerdep: Dep {id: 4, subs: Array(1)}value: {__ob__: Observer}vmCount: 0__proto__: Objectget id: ƒ reactiveGetter()set id: ƒ reactiveSetter(newVal)get name: ƒ reactiveGetter()set name: ƒ reactiveSetter(newVal)__proto__: Object
+        $vm.$parent.componentData.name
+        "lichen"
+        $vm.$el
+        <div id=​"1" name=​"lichen">​</div>​
+        $vm.$children
+        []
+
+     -->
+    <div id="app">
+        <pr ></pr>
+        <!-- 输出为
+            1111 $attrs:{ "name": "lichen" } 
+        -->
+       
+    </div>
+
+
+    <template id="child">
+        <div>
+            1111
+            $attrs:{{$attrs}}
+        </div>
+    </template>
+    <template id="parent">
+        <div>
+            <!-- //componentData属性来自于父组件,而不是vue实例 -->
+            <me v-bind="componentData"></me>
+        </div>
+    </template>
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // 模型绑定
+        new Vue({
+            el:"#app",
+            // 注意局部注册的组件在其子组件中不可用
+            // 局部组件中子组件需要在父组件中注册
+            components: {
+					"pr": {
+                        template:"#parent",
+                        data() {
+                            return {
+                                componentData:{
+                                    name:"lichen"
+                                }
+                            }
+                        },
+                        components:{
+                            'me':{
+                                template:"#child"
+
+                            }
+                        }
+                    }
+				},
+        })
+
+    </script>
+</body>
+</html>

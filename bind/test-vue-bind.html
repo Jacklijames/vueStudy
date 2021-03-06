@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind</title>
+    
+</head>
+<style>
+    .a{
+        border: 5px red solid;
+    }
+    .b{
+        border: 5px darkblue solid;
+    }
+</style>
+<body>
+    <div id="app">
+        <input v-bind:type="Type" value="1212" :class="Class"/>
+        <input v-bind:type="Type" value="3434" :class="isClass?'a':'b'"/>
+    </div>
+    <!-- 绑定页面属性 ：
+        用来将html标签中相关属性绑定到vue实例中，日后通过对vue实例中数据改变，影响到对应标签中属性值的变化
+        一、概述 v-bind 主要用于属性绑定，比方你的class属性，style属性，value属性，href属性等等，只要是属性，就可以用v-bind指令进行绑定。 示例：
+　　
+　　绑定一个属性 
+　　
+　　<img v-bind:src="imageSrc">
+　　
+　　缩写 
+　　
+　　<img :src="imageSrc">
+　　
+　　 内联字符串拼接 
+　　
+　　<img :src="'/path/to/images/' + fileName">
+　　
+　　 class 绑定 
+　　
+　　<div :class="{ red: isRed }"></div>
+　　
+　　<div :class="[classA, classB]"></div>
+　　
+　　<div :class="[classA, { classB: isB, classC: isC }]">
+　　
+　　 style 绑定 
+　　
+　　<div :style="{ fontSize: size + 'px' }"></div>
+　　
+　　<div :style="[styleObjectA, styleObjectB]"></div>
+　　
+　　 绑定一个有属性的对象 
+　　
+　　<div v-bind="{ id: someProp, 'other-attr': otherProp }"></div>
+　　
+　　- 通过 prop 修饰符绑定 DOM 属性 -
+　　
+　　<div v-bind:text-content.prop="text"></div>
+　　
+　　 prop 绑定。“prop”必须在 my-component 中声明。-
+　　
+　　<my-component :prop="someThing"></my-component>
+　　 通过 $props 将父组件的 props 一起传给子组件 
+　　
+　　<child-component v-bind="$props"></child-component>
+    -->
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+
+        Vue.component("my-componet",{
+          
+        })
+
+        new Vue({
+            el:"#app",
+            data() {
+                return {
+                    Type:"button",
+                    Class:"a",
+                    isClass:false
+                }
+            },
+        })
+
+    </script>
+
+
+</body>
+</html>

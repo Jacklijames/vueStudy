@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>v-bind 与 v-bind:name 的区别</title>
+		<style>
+			.components {
+				border: 1px solid #000;
+				padding: 30px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="swq">
+			<box></box>
+		</div>
+		<script type="text/x-template" id="box-template">
+			<div class="components">
+				<div>cBobj{{cBobj}}</div>
+				<div>cBobj2{{cBobj2}}</div>
+				<c-a v-bind="cBobj"></c-a>
+				<c-a v-bind="cBobj" v-bind="cBobj2"></c-a>
+				<c-b v-on="cBfun"></c-b>
+				<c-b v-on="cBfun" v-on="cBfun2"></c-b>
+			</div>
+		</script>
+		<script type="text/x-template" id="cA-template">
+			<div class="components">
+				<div>$attrs{{$attrs}}</div>
+				<div>$props{{$props}}</div>
+			</div>
+		</script>
+		<script type="text/x-template" id="cB-template">
+			<div class="components">
+				<div>查看console.log()</div>
+			</div>
+		</script>
+
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script type="text/javascript">
+			var cA = {
+				template: "#cA-template",
+				props: ["b1"],
+			};
+			var cB = {
+				template: "#cB-template",
+				mounted() {
+					this.$emit("fun1");
+				},
+			};
+			var box = {
+				template: "#box-template",
+				data() {
+					var _this = this
+					return {
+						cBobj: {
+							b1: 1,
+							b2: 1,
+							b3: 1,
+							b4: 1,
+						},
+						cBobj2: {
+							b1: 2,
+							b2: 2,
+							b3: 2,
+							b4: 2,
+						},
+						cBfun: {
+							fun1() {
+								console.log("fun1")
+							},
+							fun2() {
+								console.log("fun2")
+							},
+						},
+						cBfun2: {
+							fun1() {
+								console.log("fun21")
+							},
+							fun2() {
+								console.log("fun22")
+							},
+						},
+					}
+				},
+				components: {
+					"c-a": cA,
+					"c-b": cB,
+				},
+			};
+			var vu = new Vue({
+				el: "#swq",
+				components: {
+					box: box
+				},
+			})
+		</script>
+	</body>
+
+</html>
